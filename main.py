@@ -5,9 +5,15 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database.db import get_db
 from src.routes.contacts import router as contacts_router
+from src.routes.auth import router as auth_router
+
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
+app.include_router(auth_router)
 app.include_router(contacts_router)
 
 
@@ -24,5 +30,5 @@ async def healthchecker(db: AsyncSession = Depends(get_db)):
             raise HTTPException(status_code=500, detail='Database is not configured correctly')
         return {"message": "Service is running!"}
     except Exception as err:
-        logging.error(err)
+        logging.error(f"Database connection error: {err}")
         raise HTTPException(status_code=500, detail='Database connection error')

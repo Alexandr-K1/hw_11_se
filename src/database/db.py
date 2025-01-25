@@ -22,6 +22,7 @@ class DataBaseSessionManager:
         except Exception as err:
             logging.error(err)
             await session.rollback()
+            raise
         finally:
             await session.close()
 

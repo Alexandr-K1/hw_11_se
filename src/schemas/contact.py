@@ -2,6 +2,7 @@ from datetime import date
 
 from pydantic import BaseModel, EmailStr, Field
 
+from src.schemas.user import UserResponse
 
 class ContactSchema(BaseModel):
     first_name: str = Field(min_length=3, max_length=50)
@@ -29,6 +30,7 @@ class ContactResponse(BaseModel):
     phone: str
     birthday: date
     description: str
+    user: UserResponse | None
 
     class Config:
         from_attributes = True
